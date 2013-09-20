@@ -1,6 +1,6 @@
 package machine;
 
-public class RotorGroup {
+class RotorGroup {
 
 	
 	Rotor[] rotors;

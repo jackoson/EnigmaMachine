@@ -41,29 +41,37 @@ public class Operator {
 		Scanner in = new Scanner(System.in);
 		System.out.println("select rotors");
 		String i = in.nextLine();
-		EnigmaMachine em = new EnigmaMachine(Character.getNumericValue(i.charAt(0)), Character.getNumericValue(i.charAt(1)),Character.getNumericValue(i.charAt(2)));
-		System.out.println("select rotor positions (letters)");
-		String pos = in.nextLine();
-		em.setRotorPositions(pos.charAt(0), pos.charAt(1),pos.charAt(2));
+		try{
+			EnigmaMachine em = new EnigmaMachine(Character.getNumericValue(i.charAt(0)), Character.getNumericValue(i.charAt(1)),Character.getNumericValue(i.charAt(2)));
 		
-		while(true){
-			String inputString = in.nextLine();
+			System.out.println("select rotor positions (letters)");
+			String pos = in.nextLine();
+			em.setRotorPositions(pos.charAt(0), pos.charAt(1),pos.charAt(2));
 			
-			if(inputString.equals("res")){
-				em.setRotorPositions(pos.charAt(0), pos.charAt(1),pos.charAt(2));
-			}else if(inputString.equals("set")){
-				i = in.nextLine();
-				em.setRotorPositions(i.charAt(0), i.charAt(1),i.charAt(2));
-			}else{
-				String code = "";
-				for(int c = 0; c< inputString.length();c++){
-					char ch = inputString.charAt(c);
-					if(ch != ' ')
-						code = code + em.Encrypt(inputString.charAt(c));
+			while(true){
+				String inputString = in.nextLine();
+				
+				if(inputString.equals("res")){
+					em.setRotorPositions(pos.charAt(0), pos.charAt(1),pos.charAt(2));
+				}else if(inputString.equals("set")){
+					i = in.nextLine();
+					em.setRotorPositions(i.charAt(0), i.charAt(1),i.charAt(2));
+				}else{
+					String code = "";
+					for(int c = 0; c< inputString.length();c++){
+						char ch = inputString.charAt(c);
+						if(ch != ' ')
+							code = code + em.Encrypt(inputString.charAt(c));
+					}
+					System.out.println(code);
 				}
-				System.out.println(code);
+				
+				
 			}
-		}
+		
+		}catch(NullPointerException e){
+			System.out.println(e.getMessage());
+		}	
 	}
 		
 		

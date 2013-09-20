@@ -13,47 +13,88 @@ import org.w3c.dom.NodeList;
 public class EnigmaMachine {
 	public RotorGroup rotorGroup;
 	
-	public EnigmaMachine(int  a, int b, int c){
-		RotorInner ri1 = null;
-		RotorInner ri2 = null;
-		RotorInner ri3 = null;
+	/**
+	 * 
+	 * Creates a machine with neccessary working parts
+	 * @param a rotor in slot one
+	 * @param b rotor in slot two
+	 * @param c rotor in slot three
+	 * 
+	 * 
+	 */
+	
+	public EnigmaMachine(int  a, int b, int c) throws NullPointerException{
 		
-		Hashtable[] h = getRotorConfigs(a,b,c);
+		if(outOfRange(a,1,5) || outOfRange(b,1,5) || outOfRange(c,1,5)){
+			throw new NullPointerException("rotors not available");
+		}else{
 		
-		try{
-			ri1 = new RotorInner(h[0]);
-			ri2 = new RotorInner(h[1]);
-			ri3 = new RotorInner(h[2]);
-		}catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("\t\t\t fudge");
+			RotorInner ri1 = null;
+			RotorInner ri2 = null;
+			RotorInner ri3 = null;
+			
+			Hashtable[] h = getRotorConfigs(a,b,c);
+			
+			try{
+				ri1 = new RotorInner(h[0]);
+				ri2 = new RotorInner(h[1]);
+				ri3 = new RotorInner(h[2]);
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("\t\t\t fudge");
+			}
+			
+	
+			Rotor r1 = new Rotor(ri1);
+			Rotor r2= new Rotor(ri2);
+			Rotor r3 = new Rotor(ri3);
+			
+			rotorGroup = new RotorGroup(new Rotor[]{r1,r2,r3});
+			rotorGroup.setRotorPositions('a', 'a', 'a');
+			
 		}
-		
-
-		Rotor r1 = new Rotor(ri1);
-		Rotor r2= new Rotor(ri2);
-		Rotor r3 = new Rotor(ri3);
-		
-		rotorGroup = new RotorGroup(new Rotor[]{r1,r2,r3});
-		rotorGroup.setRotorPositions('a', 'a', 'a');
-		
-		
 	}
 	
+	private boolean outOfRange(int i,int l, int h) {
+		if(i < l || i > h){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param a, b, c are rotor positions: a char from a to z
+	 * 
+	 */
+	
 	public void setRotorPositions(char a, char b, char c){
-		rotorGroup.setRotorPositions(a, b, c);
-		System.out.println("positions set to "+ a +", "+ b +", "+ c);
+		if(outOfRange(a,97,122) || outOfRange(b,97,122) || outOfRange(c,97,122)){
+			throw new NullPointerException("positions not available");
+		}else{
+			rotorGroup.setRotorPositions(a, b, c);
+			System.out.println("positions set to "+ a +", "+ b +", "+ c);
+		}
 	}
 	
 	public String getRotorPos() {
 		return rotorGroup.getRotorPos();
 	}
-	
+	/**
+	 * 
+	 * When a character is encrypted the rotors rotate, so that the same letter is encoded differently each time.
+	 * 
+	 * @param ch is the character to be encrypted
+	 * @return the encrypted character 
+	 * 
+	 * 
+	 * 
+	 */
 	public char Encrypt(char ch){
 		return rotorGroup.Encode(ch);
 	}
 	
-	 Hashtable[] getRotorConfigs(int a, int b, int c) {
+	private Hashtable[] getRotorConfigs(int a, int b, int c) {
 
 		
 		

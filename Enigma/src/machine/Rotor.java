@@ -2,7 +2,7 @@ package machine;
 
 import java.util.Hashtable;
 
-public class Rotor {
+ class Rotor {
 	
 	RotorInner rInner;
 	private int InneroffSet;
